@@ -174,6 +174,7 @@ export default {
       );
     },
     moveProjectsUp() {
+      if (this.activeProject === 0) return;
       this.initScrollTrigger();
 
       const { projectsSection, previewSection } = this.$refs;
@@ -190,6 +191,7 @@ export default {
       });
     },
     moveProjectsDown() {
+      if (this.activeProject === undefined) return;
       this.setProjectsPos();
 
       const { projectsSection, previewSection } = this.$refs;
