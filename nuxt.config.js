@@ -16,6 +16,10 @@ export default {
     ],
   },
 
+  generate: {
+    fallback: true
+  },
+
   dir: {
     assets: 'src/assets',
     app: 'src/app',

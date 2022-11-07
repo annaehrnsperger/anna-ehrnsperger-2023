@@ -2,7 +2,7 @@
   <article class="h-screen flex flex-col">
     <section class="grid-layout | p-6 pt-4 md:p-12 md:pt-9" @mouseenter="moveProjectsDown" @touchstart="moveProjectsDown">
       <div class="col-span-full lg:col-span-full">
-        <h1 class="duration-400 delay-[25ms] ease-out-quint" :class="{ 'pl-[32px]': activeProject === undefined }">
+        <h1 class="duration-400 delay-[25ms] ease-out-quint" :class="{ 'dot-padding': activeProject === undefined }">
           <span class="relative">
             <Dot :show="activeProject === undefined" :is-logo="true" />
             <span>Anna Ehrnsperger</span>

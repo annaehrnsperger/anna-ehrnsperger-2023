@@ -1,13 +1,6 @@
-# Baustelle
+# Anna Ehrnsperger 2023
 
-> Starter template with [Nuxt](https://nuxtjs.org/) and [Sanity](https://sanity.io)
-
-## 🤡 Features
-
-- Nuxt 2
-- Sanity
-- Tailwind 3.0
-- GSAP
+> Website with [Nuxt](https://nuxtjs.org/) and [Sanity](https://sanity.io)
 
 ## 💥 Getting Started
 

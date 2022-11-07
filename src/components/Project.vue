@@ -1,7 +1,7 @@
 <template>
   <li
     class="duration-400 delay-[25ms] ease-out-quint"
-    :class="{ 'pl-[32px]': activeProject, 'text-gray': !isActive }"
+    :class="{ 'dot-padding': activeProject, 'text-gray': !isActive }"
     data-project
     @mouseenter="$emit('mouseenter')"
   >

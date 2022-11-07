@@ -24,3 +24,7 @@ body {
 .grid-layout {
   @apply grid grid-cols-12 md:grid-cols-24;
 }
+
+.dot-padding {
+  @apply pl-[27px] md:pl-[33px] lg:pl-[40px] xl:pl-[50px]
+}

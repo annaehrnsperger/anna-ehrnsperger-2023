@@ -41,18 +41,27 @@
   /** 
    * Fonts
    */
-  --sm: clamp(1rem, 2vw, 1.4rem);
-  --base: clamp(2.8rem, 3vw, 4rem);
+  --sm: clamp(1rem, 0.9vw, 2rem);
+  --base: clamp(2.8rem, 2.6vw, 5.5rem);
 }
 
-/* @supports not (font-size: clamp(1rem, 2vw, 3rem)) {
+@supports not (font-size: clamp(1rem, 2vw, 3rem)) {
   :root {
-    --xs: 1.4rem;
+    --sm: 1rem;
+    --base: 2.8rem;
   }
 
   @media (min-width: 900px) {
     :root {
-      --xs: 1.4rem;
+      --sm: 1.4rem;
+      --base: 4rem;
     }
   }
-} */
+
+  @media (min-width: 1920px) {
+    :root {
+      --sm: 2rem;
+      --base: 5.5rem;
+    }
+  }
+}

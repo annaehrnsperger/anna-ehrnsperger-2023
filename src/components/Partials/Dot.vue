@@ -1,11 +1,6 @@
 <template>
   <Transition :css="false" @enter="onDotEnter" @leave="onDotLeave">
-    //TODO translate-y
-    <span
-      v-if="show"
-      class="dot-pos | absolute left-[-30px] mt-auto inline-block scale-0 w-[27px] h-[27px] rounded-full"
-      :class="{ 'bg-gray': !activeCategory, 'bg-white': activeCategory, 'bg-black': isLogo }"
-    />
+    <span v-if="show" ref="dot" class="left-[-27px] md:left-[-32px] lg:left-[-40px] xl:left-[-50px] absolute mt-auto inline-block">●</span>
   </Transition>
 </template>
 
@@ -46,9 +41,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.dot-pos {
-  transform: translateY(clamp(5px, 3vw, 7px));
-}
-</style>
