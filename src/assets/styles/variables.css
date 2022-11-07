@@ -3,7 +3,7 @@
   /** 
    * Misc
    */
-   --projects-top: 93px;
+   --projects-top: 103px;
 
   /** 
    * Colors
@@ -43,6 +43,24 @@
    */
   --sm: clamp(1rem, 0.9vw, 2rem);
   --base: clamp(2.8rem, 2.6vw, 5.5rem);
+}
+
+@media (min-width: 900px) {
+  :root {
+    --projects-top: 70px;
+  }
+}
+
+@media (min-width: 1280px) {
+  :root {
+    --projects-top: 90px;
+  }
+}
+
+@media (min-width: 1920px) {
+  :root {
+    --projects-top: 117px;
+  }
 }
 
 @supports not (font-size: clamp(1rem, 2vw, 3rem)) {

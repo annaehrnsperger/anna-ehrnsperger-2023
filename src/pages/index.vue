@@ -1,6 +1,23 @@
 <template>
   <article class="h-screen flex flex-col">
-    <section class="grid-layout | p-6 pt-4 md:p-12 md:pt-9" @mouseenter="moveProjectsDown" @touchstart="moveProjectsDown">
+    <section ref="aboutSection" class="grid-layout | p-6 pt-5 md:p-12 md:pt-9" @mouseenter="moveProjectsDown" @touchstart="moveProjectsDown">
+      <div class="grid-layout small | col-span-full pt-1 pb-12 md:p-0 md:fixed md:left-0 md:w-full md:top-10">
+        <ul class="col-span-full md:col-start-13 md:col-span-12 flex">
+          <li>
+            <a href="mailto:hallo@annaehrnsperger.de" class="pr-8 group">
+              <BtnDot :is-social="true" />
+              <span class="pl-[1px] md:p-0">Email</span>
+            </a>
+          </li>
+          <li v-for="social in socials" :key="social.title">
+            <a :href="social.url" target="_blank" rel="noopener noreferrer" class="pr-8 group">
+              <BtnDot :is-social="true" />
+              <span class="pl-[1px] md:p-0">{{ social.title }}</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
       <div class="col-span-full lg:col-span-full">
         <h1 class="duration-400 delay-[25ms] ease-out-quint" :class="{ 'dot-padding': activeProject === undefined }">
           <span class="relative">
@@ -9,9 +26,8 @@
           </span>
         </h1>
         <h2>
-          Designer and Web Developer creating unique, high-quality websites.
-          <br />
-          I strive for beautiful execution and great user experience.
+          <span class="block">Designer and Web Developer creating unique, high-quality websites.</span>
+          <span class="block pt-6 md:pt-0">I strive for beautiful execution and great user experience.</span>
         </h2>
         <a href="mailto:hallo@annaehrnsperger.de">Let’s create something together.</a>
       </div>
@@ -19,7 +35,7 @@
 
     <section
       ref="projectsSection"
-      class="hide-scrollbar projects-section | fixed top-projects w-full overflow-y-scroll bg-black text-white"
+      class="hide-scrollbar projects-section | top-projects fixed w-full overflow-y-scroll bg-black text-white"
       @mouseenter="moveProjectsUp"
       @touchstart="moveProjectsUp"
     >
@@ -36,7 +52,7 @@
             col-span-full
             md:col-start-13 md:col-span-12
             py-6
-            md:pt-9
+            md:pt-11
           "
         >
           <CategoryBtn v-for="(category, i) in categories" :key="category._id" :category="category" :i="i" />
@@ -87,9 +103,10 @@ import Project from '../components/Project.vue';
 import PortableText from '../components/Partials/PortableText.vue';
 import { selectAll } from '../utils/helper';
 import Dot from '../components/Partials/Dot.vue';
+import BtnDot from '../components/Partials/BtnDot.vue';
 
 export default {
-  components: { Img, CategoryBtn, Project, PortableText, Dot },
+  components: { Img, CategoryBtn, Project, PortableText, Dot, BtnDot },
   async asyncData({ $sanity }) {
     return await $sanity.fetch(query);
   },
@@ -97,20 +114,31 @@ export default {
     return {
       activeProject: undefined,
       activePreview: 0,
-      initialProjectsPos: 120,
+      initialProjectsPos: 0,
+      socials: [
+        { title: 'Instagram', url: 'https://www.instagram.com/annaehrnsperger/' },
+        { title: 'Twitter', url: 'https://twitter.com/annaehrnsperger' },
+      ],
     };
   },
   head() {
     return seo(this.general);
   },
   mounted() {
+    this.setProjectsPos();
+
     const { projectsSection, previewSection } = this.$refs;
+
     gsap.set([projectsSection, previewSection], { y: this.initialProjectsPos });
 
     window.addEventListener('wheel', once(this.moveProjectsUp));
     window.addEventListener('touchstart', once(this.moveProjectsUp));
   },
   methods: {
+    setProjectsPos() {
+      const { projectsSection, aboutSection } = this.$refs;
+      this.initialProjectsPos = aboutSection?.offsetHeight - projectsSection?.getBoundingClientRect().top;
+    },
     initScrollTrigger() {
       gsap.registerPlugin(ScrollTrigger);
 
@@ -162,6 +190,8 @@ export default {
       });
     },
     moveProjectsDown() {
+      this.setProjectsPos();
+
       const { projectsSection, previewSection } = this.$refs;
 
       this.activeProject = undefined;

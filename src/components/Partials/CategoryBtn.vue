@@ -1,26 +1,14 @@
 <template>
   <button class="group pr-8 pb-4 flex-none" :class="{ 'pl-8 md:pl-0': i === 0 }" @click="handleBtn">
-    <span
-      class="
-        h-[8px]
-        w-[8px]
-        inline-block
-        rounded-full
-        -translate-y-[0.5px]
-        border border-white
-        md:border-gray
-        border-solid
-        md:group-hover:bg-gray
-        duration-150
-      "
-      :class="{ 'bg-white md:bg-gray': isActive, 'bg-transparent': !isActive }"
-    />
-    <span>{{ category.title }}</span>
+    <BtnDot :is-active="isActive" />
+    <span class="pl-[1px] md:p-0">{{ category.title }}</span>
   </button>
 </template>
 
 <script>
+import BtnDot from './BtnDot.vue';
 export default {
+  components: { BtnDot },
   props: {
     category: Object,
     i: Number,
