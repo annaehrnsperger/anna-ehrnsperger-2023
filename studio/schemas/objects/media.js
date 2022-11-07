@@ -30,16 +30,6 @@ export default {
       title: 'Video',
       hidden: ({ parent }) => !parent?.type || parent.type !== 'video',
     },
-    {
-      name: 'title',
-      title: 'Title',
-      type: 'string',
-    },
-    {
-      name: 'subtitle',
-      title: 'Subtitle',
-      type: 'string',
-    },
   ],
   preview: {
     select: {

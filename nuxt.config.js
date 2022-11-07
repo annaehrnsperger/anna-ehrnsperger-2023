@@ -1,11 +1,12 @@
-import { LANGUAGES } from './src/utils/constants'
-
 export default {
   target: 'static',
 
+  server: {
+    host: '0.0.0.0',
+  },
+
   head: {
-    title: 'Baustelle',
-    // TODO
+    title: 'Anna Ehrnsperger',
     htmlAttrs: {
       lang: 'en',
     },
@@ -26,18 +27,15 @@ export default {
   },
 
   css: [
-    '@/src/assets/styles/fallback.css',
-    '@/src/assets/styles/fonts.css',
     '@/src/assets/styles/index.css',
     '@/src/assets/styles/normalize.css',
     '@/src/assets/styles/utilities.css',
     '@/src/assets/styles/variables.css'
   ],
 
-  plugins: ['~/src/plugins/sanity-image-builder.js', '~/src/plugins/router.js'],
+  plugins: ['~/src/plugins/sanity-image-builder.js'],
 
-  // TODO
-  modules: ['@nuxtjs/sanity/module', '@nuxtjs/i18n', 'nuxt-shopify'],
+  modules: ['@nuxtjs/sanity/module'],
 
   buildModules: [
     '@nuxtjs/eslint-module',
@@ -60,19 +58,5 @@ export default {
   sanity: {
     projectId: process.env.SANITY_PROJECT_ID,
     apiVersion: '2022-03-24',
-  },
-
-  // TODO
-  i18n: {
-    locales: LANGUAGES,
-    defaultLocale: LANGUAGES[0],
-    skipSettingLocaleOnNavigate: true,
-  },
-
-  // TODO
-  shopify: {
-    domain: process.env.SHOPIFY_DOMAIN,
-    storefrontAccessToken: process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN,
-    unoptimized: false,
   },
 }

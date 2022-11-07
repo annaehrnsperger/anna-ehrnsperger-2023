@@ -2,7 +2,8 @@ import S from '@sanity/desk-tool/structure-builder';
 import { orderableDocumentListDeskItem } from '@sanity/orderable-document-list'
 import {
   FiCircle,
-  FiFile,
+  FiCoffee,
+  FiFileText,
   FiLayout,
   FiSettings,
   FiSidebar,
@@ -22,10 +23,11 @@ export default () =>
         .title('Frontpage')
         .icon(FiLayout)
         .child(S.editor().schemaType('frontpage').documentId('frontpage')),
-      S.listItem()
-        .title('Pages')
-        .icon(FiSidebar)
-        .child(S.documentTypeList('page').title('Pages')),
+      orderableDocumentListDeskItem({
+        type: 'project',
+        title: 'Projects',
+        icon: FiCoffee,
+      }),
       S.listItem()
         .title('Blog')
         .icon(FiCircle)
@@ -50,6 +52,6 @@ export default () =>
         ),
       S.listItem()
         .title('Legal')
-        .icon(FiFile)
+        .icon(FiFileText)
         .child(S.editor().schemaType('legal').documentId('legal')),
     ]);

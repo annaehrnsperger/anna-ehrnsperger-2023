@@ -1,11 +1,11 @@
 {
   "root": true,
-  "project": {
-    "name": "Baustelle"
-  },
   "api": {
-    "projectId": "af0s5c2d",
+    "projectId": "x28waukr",
     "dataset": "production"
+  },
+  "project": {
+    "name": "Anna Ehrnsperger"
   },
   "plugins": [
     "@sanity/base",
@@ -14,8 +14,7 @@
     "@sanity/desk-tool",
     "mux-input",
     "@sanity/orderable-document-list",
-    "media",
-    "dashboard-widget-netlify"
+    "media"
   ],
   "env": {
     "development": {

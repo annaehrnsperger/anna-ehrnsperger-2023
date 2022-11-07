@@ -2,7 +2,7 @@ import createSchema from 'part:@sanity/base/schema-creator'
 import schemaTypes from 'all:part:@sanity/base/schema-type'
 
 import general from './documents/general';
-import page from './documents/routes/page';
+import project from './documents/routes/project';
 import frontpage from './documents/routes/frontpage';
 import overviewPage from './documents/routes/overviewPage';
 import post from './documents/routes/post';
@@ -19,7 +19,7 @@ const documents = [
   general,
   frontpage,
   overviewPage,
-  page,
+  project,
   post,
   legal,
   category,

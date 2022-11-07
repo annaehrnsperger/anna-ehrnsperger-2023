@@ -20,12 +20,12 @@ export default {
       type: 'slug',
       title: 'Slug',
       description:
-      'Is a unique part at the end of the URL, e.g. mywebsite.com/my-page',
+        'Is a unique part at the end of the URL, e.g. mywebsite.com/my-page',
       options: {
         source: 'title',
         maxLength: 200,
         slugify: (input) =>
-        input.toLowerCase().replace(/\s+/g, '-').slice(0, 200),
+          input.toLowerCase().replace(/\s+/g, '-').slice(0, 200),
       },
       validation: (Rule) => Rule.required(),
     },
@@ -34,18 +34,7 @@ export default {
       type: 'date',
       title: 'Date',
     },
-    {
-      title: 'Filter',
-      name: 'filter',
-      type: 'array',
-      of: [
-        {
-          type: 'reference',
-          to: [{ type: 'category' }],
-          title: 'Category',
-        },
-      ],
-    },
+
     {
       title: 'Image',
       name: 'image',

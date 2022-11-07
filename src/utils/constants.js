@@ -4,6 +4,3 @@ export const BREAKPOINTS = {
   lg: 1280,
   xl: 1920,
 };
-
-// TODO
-export const LANGUAGES = ['en', 'de']

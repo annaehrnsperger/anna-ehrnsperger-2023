@@ -23,14 +23,14 @@ module.exports = {
       black: 'var(--black)',
       white: 'var(--white)',
       gray: 'var(--gray)',
+      darkgray: 'var(--darkgray)',
     },
     fontFamily: {
-      sans: ['"Helvetica Neue"', ...defaultTheme.fontFamily.sans],
-      serif: ['Georgia', ...defaultTheme.fontFamily.serif],
-      mono: ['"Courier New"', ...defaultTheme.fontFamily.mono],
+      sans: ['"GT America"', ...defaultTheme.fontFamily.sans],
     },
     fontSize: {
-      16: '1.6rem',
+      sm: 'var(--sm)',
+      base: 'var(--base)',
     },
     lineHeight: {
       none: '1',
@@ -41,12 +41,8 @@ module.exports = {
       loose: '2',
     },
     letterSpacing: {
-      tighter: '-0.05em',
+      none: 0,
       tight: '-0.025em',
-      normal: '0',
-      wide: '0.025em',
-      wider: '0.05em',
-      widest: '0.1em',
     },
     extend: {
       gridTemplateColumns: {
@@ -108,6 +104,9 @@ module.exports = {
         'in-expo': 'var(--ease-in-expo)',
         'out-expo': 'var(--ease-out-expo)',
         'in-out-expo': 'var(--ease-in-out-expo)',
+      },
+      inset: {
+        'projects': 'var(--projects-top)',
       }
     },
   },

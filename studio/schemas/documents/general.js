@@ -4,26 +4,6 @@ export default {
   title: 'General',
   fields: [
     {
-      title: 'Navigation',
-      name: 'navigation',
-      type: 'object',
-      fields: [
-        {
-          name: 'pages',
-          title: 'Pages',
-          type: 'array',
-          of: [
-            {
-              type: 'reference',
-              to: [{ type: 'frontpage' }, { type: 'overviewPage' }, { type: 'page' }],
-              title: 'Pages',
-            },
-          ],
-        },
-      ],
-      options: { collapsible: true, collapsed: false },
-    },
-    {
       title: 'Default SEO',
       name: 'defaultSeo',
       type: 'object',

@@ -2,11 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
-
-body {
-  @apply text-16 decoration-from-font underline-offset-4;
+@font-face {
+  font-family: 'GT America';
+  src: url('~src/assets/fonts/GT-America-Standard-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
 }
 
-::selection {
-  background: var(--gray)
+body {
+  @apply selection:bg-gray text-base overflow-hidden tracking-tight;
+}
+
+body {
+  font-feature-settings: "ss01";
+}
+
+.small {
+  @apply text-sm tracking-none;
+}
+
+.grid-layout {
+  @apply grid grid-cols-12 md:grid-cols-24;
 }
