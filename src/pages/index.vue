@@ -1,5 +1,5 @@
 <template>
-  <article class="h-screen flex flex-col">
+  <article class="h-screen">
     <section ref="aboutSection" class="grid-layout | p-6 pt-5 md:p-12 md:pt-9" @mouseenter="moveProjectsDown" @touchstart="moveProjectsDown">
       <div class="grid-layout small | col-span-full pt-1 pb-12 md:p-0 md:fixed md:left-0 md:w-full md:top-10">
         <ul class="col-span-full md:col-start-13 md:col-span-12 flex">
@@ -35,25 +35,13 @@
 
     <section
       ref="projectsSection"
-      class="hide-scrollbar projects-section | top-projects fixed w-full overflow-y-scroll bg-black text-white"
+      class="hide-scrollbar projects-section | top-projects fixed w-full overflow-y-hidden bg-black text-white"
       @mouseenter="moveProjectsUp"
       @touchstart="moveProjectsUp"
     >
-      <div class="grid-layout">
+      <div class="grid-layout" data-categories>
         <div
-          class="
-            small
-            hide-scrollbar
-            |
-            overflow-x-scroll
-            md:overflow-auto md:text-gray
-            flex
-            md:flex-wrap md:pb-32
-            col-span-full
-            md:col-start-13 md:col-span-12
-            py-6
-            md:pt-11
-          "
+          class="small hide-scrollbar | overflow-x-scroll md:overflow-auto md:text-gray flex md:flex-wrap md:pb-32 col-span-full md:col-start-13 md:col-span-12 py-6 md:pt-11"
         >
           <CategoryBtn v-for="(category, i) in categories" :key="category._id" :category="category" :i="i" />
         </div>
@@ -77,15 +65,20 @@
     </section>
 
     <section ref="previewSection" class="grid-layout | p-6 md:p-12 fixed inset-0 w-full h-full pointer-events-none">
-      <div class="relative col-start-6 col-span-7 md:col-start-17 md:col-span-8 mt-auto aspect-square">
-        <figure
+      <div class="relative col-start-6 col-span-7 md:col-start-17 md:col-span-8 mt-auto aspect-square pointer-events-auto">
+        <a
           v-for="(project, i) in projects"
           :key="project._id"
+          :href="project.url"
+          target="_blank"
+          rel="noopener noreferrer"
           class="dark-shadow | absolute inset-0 opacity-0"
-          :class="{ 'opacity-100': activePreview === i }"
+          :class="{ 'opacity-100': activePreview === i, 'pointer-events-none': activePreview !== i }"
         >
-          <Img :asset="project.preview.image" :alt="project.preview.alt" />
-        </figure>
+          <figure>
+            <Img :asset="project.preview.image" :alt="project.preview.alt" />
+          </figure>
+        </a>
       </div>
     </section>
   </article>
@@ -143,6 +136,31 @@ export default {
       gsap.registerPlugin(ScrollTrigger);
 
       const projects = selectAll('[data-project]');
+      const fadeOuts = selectAll('[data-fade-out]');
+
+      gsap.to('[data-categories]', {
+        opacity: 0,
+        duration: 0.1,
+        scrollTrigger: {
+          scroller: this.$refs.projectsSection,
+          trigger: '[data-categories]',
+          start: '10px top',
+          toggleActions: 'play none none reverse',
+        },
+      });
+
+      fadeOuts.forEach((fadeOut) => {
+        gsap.to(fadeOut, {
+          opacity: 0,
+          duration: 0.1,
+          scrollTrigger: {
+            scroller: this.$refs.projectsSection,
+            trigger: fadeOut,
+            start: 'top -2px',
+            toggleActions: 'play none none reverse',
+          },
+        });
+      });
 
       const mm = gsap.matchMedia();
       const breakPoint = 900;
@@ -186,7 +204,11 @@ export default {
         y: 0,
         ease: 'expo.inOut',
         duration: 0.6,
-        onStart: () => window.removeEventListener('wheel', this.moveProjectsUp),
+        onStart: () => {
+          gsap.set(projectsSection, { overflowY: 'scroll', delay: 0.2 });
+          window.removeEventListener('wheel', once(this.moveProjectsUp));
+          window.removeEventListener('touchstart', once(this.moveProjectsUp));
+        },
         onComplete: () => ScrollTrigger.refresh(),
       });
     },
@@ -199,7 +221,14 @@ export default {
       this.activeProject = undefined;
 
       gsap.killTweensOf([projectsSection, previewSection]);
-      gsap.to([projectsSection, previewSection], { y: this.initialProjectsPos, ease: 'expo.out', duration: 1 });
+      gsap.to([projectsSection, previewSection], {
+        y: this.initialProjectsPos,
+        ease: 'power4.out',
+        duration: 0.6,
+        onStart: () => {
+          gsap.set(projectsSection, { overflowY: 'hidden' });
+        },
+      });
     },
     onProjectHover(i) {
       this.activeProject = i;

@@ -5,7 +5,7 @@
     data-project
     @mouseenter="$emit('mouseenter')"
   >
-    <a :href="project.url" target="_blank" rel="noopener noreferrer" class="grid-layout | block pb-[5px]">
+    <a :href="project.url" target="_blank" rel="noopener noreferrer" class="grid-layout | block pb-[5px]" data-fade-out>
       <span class="col-span-full md:col-span-11 relative">
         <Dot :show="activeProject" :active-category="isActive" />
         <span>{{ project.title }}</span>

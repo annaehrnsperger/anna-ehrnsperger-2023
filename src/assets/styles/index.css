@@ -10,11 +10,11 @@
 }
 
 body {
-  @apply selection:bg-gray text-base overflow-hidden tracking-tight;
+  @apply selection:bg-gray text-base tracking-tight overflow-hidden;
 }
 
 body {
-  font-feature-settings: "ss01";
+  font-feature-settings: 'ss01';
 }
 
 .small {
@@ -26,5 +26,5 @@ body {
 }
 
 .dot-padding {
-  @apply pl-[27px] md:pl-[33px] lg:pl-[40px] xl:pl-[50px]
+  @apply pl-[27px] md:pl-[33px] lg:pl-[40px] xl:pl-[50px];
 }
