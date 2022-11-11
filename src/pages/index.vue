@@ -2,7 +2,7 @@
   <article class="h-screen">
     <section
       ref="aboutSection"
-      class="grid-layout | p-6 pt-5 md:p-12 md:pt-9 h-screen flex flex-col items-center"
+      class="grid-layout | p-6 pt-5 md:p-12 md:pt-9 h-[90vh] md:h-screen flex flex-col items-center"
       @mouseenter="moveProjectsDown"
       @touchstart="moveProjectsDown"
     >
@@ -32,7 +32,10 @@
         </h1>
         <div>
           <h2>
-            <span ref="introText" class="block opacity-0">Digital Design, Web Development</span>
+            <span ref="introText" class="block opacity-0"
+              >Digital Design, <br class="md:hidden" />
+              Web Development</span
+            >
             <span data-about-text class="block opacity-0">Designer and Web Developer creating unique, high-quality websites.</span>
             <span data-about-text class="block pt-6 md:pt-0 opacity-0">I strive for beautiful execution and great user experience.</span>
           </h2>
@@ -128,9 +131,6 @@ export default {
   },
   mounted() {
     this.introAnimation();
-
-    window.addEventListener('wheel', once(this.moveProjectsUp));
-    window.addEventListener('touchstart', once(this.moveProjectsUp));
   },
   methods: {
     setProjectsPos() {
@@ -148,7 +148,8 @@ export default {
       tl.to(introText, { opacity: 0, duration: 0.2 }, '<30%');
       tl.set(introText, { height: 0, onComplete: () => this.setProjectsPos() });
       tl.set([projectsSection, previewSection], { y: '120%', opacity: 1 });
-      tl.to(['[data-about-text]', socials], { opacity: 1 }, '<');
+      tl.to('[data-about-text]', { opacity: 1 }, '<');
+      tl.to(socials, { opacity: 1 }, '<80%');
       tl.to(
         [projectsSection, previewSection],
         {
@@ -156,8 +157,13 @@ export default {
             gsap.to([projectsSection, previewSection], {
               y: this.initialProjectsPos,
               ease: 'expo.out',
-              duration: 1.6,
-              onComplete: () => gsap.set(projectsSection, { pointerEvents: 'auto' }),
+              duration: 1,
+              onComplete: () => {
+                gsap.set(projectsSection, { pointerEvents: 'auto' });
+
+                window.addEventListener('wheel', once(this.moveProjectsUp));
+                window.addEventListener('touchstart', once(this.moveProjectsUp));
+              },
             }),
         },
         '<'

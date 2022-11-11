@@ -18,10 +18,8 @@ export default {
           title: 'Description',
           name: 'description',
           type: 'text',
-          description:
-            'Important for SEO. This will appear in search engines below the title.',
-          validation: (Rule) =>
-            Rule.max(155).warning('Should be under 155 characters').required(),
+          description: 'Important for SEO. This will appear in search engines below the title.',
+          validation: (Rule) => Rule.max(155).warning('Should be under 155 characters').required(),
         },
         {
           title: 'Preview Image',
@@ -37,41 +35,6 @@ export default {
       ],
       options: { collapsible: true, collapsed: false },
     },
-    {
-      title: 'Email',
-      name: 'email',
-      type: 'string',
-    },
-    {
-      title: 'Phone',
-      name: 'phone',
-      type: 'string',
-    },
-    {
-      name: 'social',
-      title: 'Social',
-      type: 'array',
-      of: [{ type: 'socialLink' }],
-      options: {
-        canDuplicate: 'social',
-      },
-    },
-    {
-      title: 'Copyright',
-      name: 'copyright',
-      type: 'string',
-      description: 'Do not include years.',
-    },
-    //     {
-    //       type: 'color',
-    //       name: 'textColor',
-    //       title: 'Text color',
-    //     },
-    //     {
-    //       type: 'color',
-    //       name: 'bgColor',
-    //       title: 'Background color',
-    //     },
   ],
   preview: {
     prepare() {

@@ -1,28 +1,13 @@
 import S from '@sanity/desk-tool/structure-builder';
-import { orderableDocumentListDeskItem } from '@sanity/orderable-document-list'
-import {
-  FiCircle,
-  FiCoffee,
-  FiFileText,
-  FiLayout,
-  FiSettings,
-  FiSidebar,
-  FiSquare,
-} from 'react-icons/fi';
+import { orderableDocumentListDeskItem } from '@sanity/orderable-document-list';
+import { FiCircle, FiCoffee, FiFileText, FiLayout, FiSettings, FiSidebar, FiSquare } from 'react-icons/fi';
 
 export default () =>
   S.list()
     .title('Content')
     .items([
-      S.listItem()
-        .title('General')
-        .icon(FiSettings)
-        .child(S.editor().schemaType('general').documentId('general')),
+      S.listItem().title('General').icon(FiSettings).child(S.editor().schemaType('general').documentId('general')),
       S.divider(),
-      S.listItem()
-        .title('Frontpage')
-        .icon(FiLayout)
-        .child(S.editor().schemaType('frontpage').documentId('frontpage')),
       orderableDocumentListDeskItem({
         type: 'project',
         title: 'Projects',
@@ -35,14 +20,7 @@ export default () =>
           S.list()
             .title('Blog')
             .items([
-              S.listItem()
-                .title('Overview Page')
-                .icon(FiSidebar)
-                .child(
-                  S.editor()
-                    .schemaType('overviewPage')
-                    .documentId('overviewPage')
-                ),
+              S.listItem().title('Overview Page').icon(FiSidebar).child(S.editor().schemaType('overviewPage').documentId('overviewPage')),
               orderableDocumentListDeskItem({
                 type: 'post',
                 title: 'Posts',
@@ -50,8 +28,5 @@ export default () =>
               }),
             ])
         ),
-      S.listItem()
-        .title('Legal')
-        .icon(FiFileText)
-        .child(S.editor().schemaType('legal').documentId('legal')),
+      S.listItem().title('Legal').icon(FiFileText).child(S.editor().schemaType('legal').documentId('legal')),
     ]);
