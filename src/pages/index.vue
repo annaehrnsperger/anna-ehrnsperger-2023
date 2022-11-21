@@ -69,7 +69,7 @@
         />
       </ul>
 
-      <div class="grid-layout small | p-6 pt-[200px] md:p-12 md:pt-[200px]">
+      <div ref="legalSection" class="grid-layout small | p-6 pt-[20rem] pb-40 md:p-12 md:pt-[20rem]">
         <div class="col-span-full md:col-span-11">
           <PortableText :blocks="legal.text" />
         </div>
@@ -135,6 +135,8 @@ export default {
     return seo(this.general);
   },
   mounted() {
+    gsap.registerPlugin(ScrollTrigger);
+
     this.introAnimation();
   },
   methods: {
@@ -174,8 +176,6 @@ export default {
       );
     },
     initScrollTrigger() {
-      gsap.registerPlugin(ScrollTrigger);
-
       const projects = selectAll('[data-project]');
       const fadeOuts = selectAll('[data-fade-out]');
 
@@ -191,14 +191,21 @@ export default {
       });
 
       fadeOuts.forEach((fadeOut) => {
-        gsap.to(fadeOut, {
-          opacity: 0,
-          duration: 0.2,
-          scrollTrigger: {
-            scroller: this.$refs.projectsSection,
-            trigger: fadeOut,
-            start: 'top -2px',
-            toggleActions: 'play none none reverse',
+        ScrollTrigger.create({
+          scroller: this.$refs.projectsSection,
+          trigger: fadeOut,
+          start: 'top -2px',
+          onEnter: () => {
+            gsap.to(fadeOut, {
+              opacity: 0,
+              duration: 0.2,
+            });
+          },
+          onLeaveBack: () => {
+            gsap.to(fadeOut, {
+              opacity: 1,
+              duration: 0.2,
+            });
           },
         });
       });
@@ -281,9 +288,6 @@ export default {
           gsap.set(projectsSection, { overflowY: 'hidden' });
           window.addEventListener('wheel', this.onWheelUp);
         },
-        // onComplete: () => {
-        //   window.removeEventListener('wheel', this.onWheelUp);
-        // },
       });
     },
     onProjectHover(i) {
@@ -296,6 +300,14 @@ export default {
       const isMobile = window.innerWidth < BREAKPOINTS.md;
 
       if (!isMobile) return;
+
+      const { top } = this.$refs.legalSection.getBoundingClientRect();
+
+      if (top - 200 < 0) {
+        gsap.to(this.$refs.previewSection, { opacity: 0, duration: 0.1 });
+      } else {
+        gsap.to(this.$refs.previewSection, { opacity: 1, duration: 0.1 });
+      }
 
       e.stopPropagation();
       e.preventDefault();
@@ -310,8 +322,6 @@ export default {
         const moveDownOnce = once(() => this.moveProjectsDown());
         moveDownOnce();
         gsap.set(projectsSection, { overflowY: 'hidden' });
-
-        projectsSection.addEventListener('mousemove', once(this.moveProjectsUp));
       }
 
       this.lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
