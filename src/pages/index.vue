@@ -49,6 +49,7 @@
       class="hide-scrollbar projects-section | top-projects fixed w-full overflow-y-hidden bg-black text-white pointer-events-none opacity-0"
       @mouseenter="moveProjectsUp"
       @touchstart="moveProjectsUp"
+      @scroll="onScroll"
     >
       <div class="grid-layout" data-categories>
         <div
@@ -76,14 +77,14 @@
     </section>
 
     <section ref="previewSection" class="grid-layout | p-6 md:p-12 fixed inset-0 w-full h-full pointer-events-none opacity-0">
-      <div class="relative col-start-6 col-span-7 md:col-start-17 md:col-span-8 mt-auto aspect-square pointer-events-auto">
+      <div class="relative col-start-7 col-span-6 md:col-start-17 md:col-span-8 mt-auto aspect-square pointer-events-auto">
         <a
           v-for="(project, i) in projects"
           :key="project._id"
           :href="project.url"
           target="_blank"
           rel="noopener noreferrer"
-          class="dark-shadow | absolute inset-0 opacity-0"
+          class="dark-shadow | absolute inset-0 opacity-0 hover:scale-[0.98]"
           :class="{ 'opacity-100': activePreview === i, 'pointer-events-none': activePreview !== i }"
         >
           <figure>
@@ -108,6 +109,7 @@ import PortableText from '../components/Partials/PortableText.vue';
 import { selectAll } from '../utils/helper';
 import Dot from '../components/Partials/Dot.vue';
 import BtnDot from '../components/Partials/BtnDot.vue';
+import { BREAKPOINTS } from '../utils/constants';
 
 export default {
   components: { Img, CategoryBtn, Project, PortableText, Dot, BtnDot },
@@ -124,6 +126,9 @@ export default {
         { title: 'Instagram', url: 'https://www.instagram.com/annaehrnsperger/' },
         { title: 'Twitter', url: 'https://twitter.com/annaehrnsperger' },
       ],
+      lastScrollTop: 0,
+      direction: 1,
+      activeSection: 'about',
     };
   },
   head() {
@@ -156,13 +161,12 @@ export default {
           onStart: () =>
             gsap.to([projectsSection, previewSection], {
               y: this.initialProjectsPos,
-              ease: 'expo.out',
-              duration: 1,
+              ease: 'power4.out',
+              duration: 0.8,
               onComplete: () => {
                 gsap.set(projectsSection, { pointerEvents: 'auto' });
 
-                window.addEventListener('wheel', once(this.moveProjectsUp));
-                window.addEventListener('touchstart', once(this.moveProjectsUp));
+                window.addEventListener('wheel', this.onWheelUp);
               },
             }),
         },
@@ -189,7 +193,7 @@ export default {
       fadeOuts.forEach((fadeOut) => {
         gsap.to(fadeOut, {
           opacity: 0,
-          duration: 0.1,
+          duration: 0.2,
           scrollTrigger: {
             scroller: this.$refs.projectsSection,
             trigger: fadeOut,
@@ -208,7 +212,7 @@ export default {
           isMobile: `(max-width: ${breakPoint - 1}px)`,
         },
         (context) => {
-          const { isDesktop, isMobile } = context.conditions;
+          const { isMobile } = context.conditions;
 
           if (isMobile) {
             projects.forEach((project, i) => {
@@ -228,7 +232,17 @@ export default {
         }
       );
     },
+    onWheelUp(e) {
+      if (e.deltaY > 0) this.direction = 1;
+      if (e.deltaY < 0) this.direction = -1;
+
+      const moveUpOnce = once(() => this.moveProjectsUp());
+
+      if (this.direction === 1) moveUpOnce();
+    },
     moveProjectsUp() {
+      this.activeSection = 'projects';
+
       if (this.activeProject === 0) return;
       this.initScrollTrigger();
 
@@ -243,13 +257,14 @@ export default {
         duration: 0.6,
         onStart: () => {
           gsap.set(projectsSection, { overflowY: 'scroll', delay: 0.2 });
-          window.removeEventListener('wheel', once(this.moveProjectsUp));
-          window.removeEventListener('touchstart', once(this.moveProjectsUp));
+          window.removeEventListener('wheel', this.onWheelUp);
         },
         onComplete: () => ScrollTrigger.refresh(),
       });
     },
     moveProjectsDown() {
+      this.activeSection = 'about';
+
       if (this.activeProject === undefined) return;
       this.setProjectsPos();
 
@@ -264,12 +279,42 @@ export default {
         duration: 0.6,
         onStart: () => {
           gsap.set(projectsSection, { overflowY: 'hidden' });
+          window.addEventListener('wheel', this.onWheelUp);
         },
+        // onComplete: () => {
+        //   window.removeEventListener('wheel', this.onWheelUp);
+        // },
       });
     },
     onProjectHover(i) {
+      if (this.activeSection === 'about') return;
+
       this.activeProject = i;
       this.activePreview = i;
+    },
+    onScroll(e) {
+      const isMobile = window.innerWidth < BREAKPOINTS.md;
+
+      if (!isMobile) return;
+
+      e.stopPropagation();
+      e.preventDefault();
+
+      const { projectsSection } = this.$refs;
+      const { scrollTop } = projectsSection;
+
+      if (scrollTop > this.lastScrollTop) this.direction = 1;
+      if (scrollTop < this.lastScrollTop) this.direction = -1;
+
+      if (this.direction === -1 && scrollTop < 5) {
+        const moveDownOnce = once(() => this.moveProjectsDown());
+        moveDownOnce();
+        gsap.set(projectsSection, { overflowY: 'hidden' });
+
+        projectsSection.addEventListener('mousemove', once(this.moveProjectsUp));
+      }
+
+      this.lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
     },
   },
 };
@@ -296,6 +341,7 @@ const query = `{
 }
 
 .dark-shadow {
+  transition: transform 0.15s var(--ease-out-quint);
   box-shadow: 0px 0px 40px 20px hsla(0, 0%, 0%, 0.816);
 }
 </style>

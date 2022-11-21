@@ -3,7 +3,7 @@
   /** 
    * Misc
    */
-   --projects-top: 103px;
+  --projects-top: 103px;
 
   /** 
    * Colors
@@ -41,7 +41,7 @@
   /** 
    * Fonts
    */
-  --sm: clamp(1rem, 0.9vw, 2rem);
+  --sm: clamp(1.2rem, 0.9vw, 2rem);
   --base: clamp(2.8rem, 2.6vw, 5.5rem);
 }
 
