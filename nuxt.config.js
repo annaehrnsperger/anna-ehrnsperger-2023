@@ -10,14 +10,11 @@ export default {
     htmlAttrs: {
       lang: 'en',
     },
-    meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-    ],
+    meta: [{ charset: 'utf-8' }, { name: 'viewport', content: 'width=device-width, initial-scale=1' }],
   },
 
   generate: {
-    fallback: true
+    fallback: true,
   },
 
   dir: {
@@ -27,30 +24,28 @@ export default {
     middleware: 'src/middleware',
     pages: 'src/pages',
     static: 'src/static',
-    store: 'src/store'
+    store: 'src/store',
   },
 
   css: [
     '@/src/assets/styles/index.css',
     '@/src/assets/styles/normalize.css',
     '@/src/assets/styles/utilities.css',
-    '@/src/assets/styles/variables.css'
+    '@/src/assets/styles/variables.css',
   ],
 
   plugins: ['~/src/plugins/sanity-image-builder.js'],
 
-  modules: ['@nuxtjs/sanity/module'],
+  modules: ['@nuxtjs/sanity/module', 'vue-plausible'],
 
-  buildModules: [
-    '@nuxtjs/eslint-module',
-    '@nuxtjs/svg',
-    '@nuxt/postcss8'
-  ],
+  plausible: {
+    domain: 'annaehrnsperger.de',
+  },
+
+  buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/svg', '@nuxt/postcss8'],
 
   build: {
-    transpile: [
-      "gsap"
-    ],
+    transpile: ['gsap'],
     postcss: {
       plugins: {
         tailwindcss: {},
@@ -63,4 +58,4 @@ export default {
     projectId: process.env.SANITY_PROJECT_ID,
     apiVersion: '2022-03-24',
   },
-}
+};
