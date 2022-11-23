@@ -86,16 +86,16 @@
       </div>
     </section>
 
-    <section ref="previewSection" class="grid-layout | p-6 md:p-12 fixed inset-0 w-full h-full pointer-events-none opacity-0">
-      <div class="relative col-start-7 col-span-6 md:col-start-17 md:col-span-8 mt-auto aspect-square pointer-events-auto">
+    <section ref="previewSection" class="grid-layout | p-6 md:p-12 fixed inset-0 w-full h-full pointer-events-none opacity-0 items-end">
+      <div class="square-fb | relative col-start-7 col-span-6 md:col-start-17 md:col-span-8 aspect-square h-full w-full">
         <a
           v-for="(project, i) in projects"
           :key="project._id"
           :href="project.url"
           target="_blank"
           rel="noopener noreferrer"
-          class="dark-shadow | absolute inset-0 opacity-0 hover:scale-[0.98]"
-          :class="{ 'opacity-100': activePreview === i, 'pointer-events-none': activePreview !== i }"
+          class="dark-shadow | absolute left-0 bottom-0 w-full opacity-0 hover:scale-[0.98]"
+          :class="{ 'opacity-100 pointer-events-auto': activePreview === i, 'pointer-events-none': activePreview !== i }"
         >
           <figure>
             <Img :asset="project.preview.image" :alt="project.preview.alt" />
@@ -385,5 +385,11 @@ const query = `{
 .dark-shadow {
   transition: transform 0.3s var(--ease-out-quint);
   box-shadow: 0px 0px 40px 20px hsla(0, 0%, 0%, 0.816);
+}
+
+@supports not (aspect-ratio: 1) {
+  .square-fb {
+    max-height: 60vw;
+  }
 }
 </style>
