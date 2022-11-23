@@ -80,7 +80,7 @@
       <div class="bg-gradient-to-b from-black to-transparent sticky w-full h-[5rem] top-0 z-10" />
 
       <div ref="legalSection" class="grid-layout small | p-6 pt-[15rem] pb-40 md:p-12 md:pt-[15rem]">
-        <div class="col-span-full md:col-span-11">
+        <div class="col-span-full sm:col-span-5 md:col-span-11">
           <PortableText :blocks="legal.text" />
         </div>
       </div>
@@ -255,7 +255,10 @@ export default {
               });
             });
 
-            return () => ScrollTrigger.killAll();
+            return () => {
+              ScrollTrigger.refresh();
+              gsap.to(this.$refs.previewSection, { opacity: 1, duration: 0.1 });
+            };
           }
         }
       );
@@ -269,8 +272,6 @@ export default {
       if (this.direction === 1) moveUpOnce();
     },
     moveProjectsUp() {
-      console.log('up', this.activeSection);
-
       this.activeSection = 'projects';
 
       if (this.activeProject === 0) return;
@@ -289,11 +290,9 @@ export default {
           gsap.set(projectsSection, { overflowY: 'scroll', delay: 0.2 });
           window.removeEventListener('wheel', this.onWheelUp);
         },
-        // onComplete: () => ScrollTrigger.refresh(),
       });
     },
     moveProjectsDown() {
-      console.log('donw', this.activeSection);
       this.activeSection = 'about';
 
       if (this.activeProject === undefined) return;
