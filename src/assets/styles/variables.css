@@ -8,6 +8,7 @@
   /** 
    * Colors
    */
+  --transparent: rgba(255, 255, 255, 0);
   --black: hsl(0, 0%, 0%);
   --white: hsl(0, 0%, 100%);
   --gray: hsl(0, 0%, 35%);
@@ -53,7 +54,7 @@
 
 @media (min-width: 1280px) {
   :root {
-    --projects-top: 90px;
+    --projects-top: 5.5vw;
   }
 }
 

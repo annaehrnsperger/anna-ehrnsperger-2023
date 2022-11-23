@@ -1,6 +1,6 @@
 <template>
   <Transition :css="false" @enter="onDotEnter" @leave="onDotLeave">
-    <span v-if="show" ref="dot" class="left-[-27px] md:left-[-32px] lg:left-[-40px] xl:left-[-50px] absolute mt-auto inline-block">●</span>
+    <span v-if="show" ref="dot" class="left-[-27px] md:left-[-32px] lg:left-[-43px] xl:left-[-50px] absolute mt-auto inline-block">●</span>
   </Transition>
 </template>
 

@@ -26,5 +26,5 @@ body {
 }
 
 .dot-padding {
-  @apply pl-[27px] md:pl-[33px] lg:pl-[40px] xl:pl-[50px];
+  @apply pl-[27px] md:pl-[33px] lg:pl-[43px] xl:pl-[50px];
 }

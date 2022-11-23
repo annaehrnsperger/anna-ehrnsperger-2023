@@ -19,7 +19,6 @@
 </template>
 
 <script>
-import { compareArrays } from '../utils/helper';
 import Dot from './Partials/Dot.vue';
 
 export default {
@@ -27,6 +26,7 @@ export default {
   props: {
     project: Object,
     activeProject: [Boolean, Number],
+    activeCategory: String,
   },
   data() {
     return {
@@ -35,8 +35,12 @@ export default {
     };
   },
   watch: {
-    '$store.getters.activeCategories'() {
-      this.isActive = compareArrays(this.$store.getters.activeCategories, this.categories);
+    activeCategory() {
+      if (!this.activeCategory) {
+        this.isActive = true;
+      } else {
+        this.isActive = this.categories.includes(this.activeCategory);
+      }
     },
   },
 };

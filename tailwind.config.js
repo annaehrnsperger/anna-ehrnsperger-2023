@@ -9,7 +9,7 @@ module.exports = {
     `src/composables/**/*.{js,ts}`,
     `src/plugins/**/*.{js,ts}`,
     `src/App.{js,ts,vue}`,
-    `src/app.{js,ts,vue}`
+    `src/app.{js,ts,vue}`,
   ],
   theme: {
     screens: {
@@ -19,7 +19,7 @@ module.exports = {
       xl: '1920px',
     },
     colors: {
-      transparent: 'transparent',
+      transparent: 'var(--transparent)',
       black: 'var(--black)',
       white: 'var(--white)',
       gray: 'var(--gray)',
@@ -76,19 +76,19 @@ module.exports = {
         24: '24',
       },
       transitionDuration: {
-        '0': '0ms',
-        '400': '400ms',
-        '600': '600ms',
-        '800': '800ms',
-        '900': '900ms',
-        '1200': '1200ms',
-        '1400': '1400ms',
-        '1600': '1600ms',
-        '1800': '1800ms',
-        '2000': '2000ms',
+        0: '0ms',
+        400: '400ms',
+        600: '600ms',
+        800: '800ms',
+        900: '900ms',
+        1200: '1200ms',
+        1400: '1400ms',
+        1600: '1600ms',
+        1800: '1800ms',
+        2000: '2000ms',
       },
       transitionTimingFunction: {
-        'linear': 'var(--ease-linear)',
+        linear: 'var(--ease-linear)',
         'in-quad': 'var(--ease-in-quad)',
         'out-quad': 'var(--ease-out-quad)',
         'in-out-quad': 'var(--ease-in-out-quad)',
@@ -106,8 +106,8 @@ module.exports = {
         'in-out-expo': 'var(--ease-in-out-expo)',
       },
       inset: {
-        'projects': 'var(--projects-top)',
-      }
+        projects: 'var(--projects-top)',
+      },
     },
   },
   variants: {

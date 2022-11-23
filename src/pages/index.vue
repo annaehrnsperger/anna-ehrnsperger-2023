@@ -55,7 +55,14 @@
         <div
           class="small hide-scrollbar | overflow-x-scroll md:overflow-auto md:text-gray flex md:flex-wrap md:pb-32 col-span-full md:col-start-13 md:col-span-12 py-6 md:pt-11"
         >
-          <CategoryBtn v-for="(category, i) in categories" :key="category._id" :category="category" :i="i" />
+          <CategoryBtn
+            v-for="(category, i) in categories"
+            :key="category._id"
+            :i="i"
+            :title="category.title"
+            :active-category="activeCategory"
+            @click="onClick(category.title)"
+          />
         </div>
       </div>
 
@@ -65,11 +72,14 @@
           :key="project._id"
           :project="project"
           :active-project="activeProject === i"
+          :active-category="activeCategory"
           @mouseenter="onProjectHover(i)"
         />
       </ul>
 
-      <div ref="legalSection" class="grid-layout small | p-6 pt-[20rem] pb-40 md:p-12 md:pt-[20rem]">
+      <div class="bg-gradient-to-b from-black to-transparent sticky w-full h-[5rem] top-0 z-10" />
+
+      <div ref="legalSection" class="grid-layout small | p-6 pt-[15rem] pb-40 md:p-12 md:pt-[15rem]">
         <div class="col-span-full md:col-span-11">
           <PortableText :blocks="legal.text" />
         </div>
@@ -106,7 +116,7 @@ import { seo } from '../utils/seo';
 import CategoryBtn from '../components/Partials/CategoryBtn.vue';
 import Project from '../components/Project.vue';
 import PortableText from '../components/Partials/PortableText.vue';
-import { selectAll } from '../utils/helper';
+import { select, selectAll } from '../utils/helper';
 import Dot from '../components/Partials/Dot.vue';
 import BtnDot from '../components/Partials/BtnDot.vue';
 import { BREAKPOINTS } from '../utils/constants';
@@ -120,6 +130,7 @@ export default {
     return {
       activeProject: undefined,
       activePreview: 0,
+      activeCategory: '',
       initialProjectsPos: 0,
       showIntroDot: false,
       socials: [
@@ -178,15 +189,24 @@ export default {
     initScrollTrigger() {
       const projects = selectAll('[data-project]');
       const fadeOuts = selectAll('[data-fade-out]');
+      const categories = select('[data-categories]');
 
-      gsap.to('[data-categories]', {
-        opacity: 0,
-        duration: 0.1,
-        scrollTrigger: {
-          scroller: this.$refs.projectsSection,
-          trigger: '[data-categories]',
-          start: '10px top',
-          toggleActions: 'play none none reverse',
+      ScrollTrigger.create({
+        scroller: this.$refs.projectsSection,
+        trigger: categories,
+        start: 'top -2px',
+        onEnter: () => {
+          gsap.to(categories, {
+            opacity: 0,
+            duration: 0.2,
+          });
+        },
+        onLeaveBack: () => {
+          gsap.to(categories, {
+            opacity: 1,
+            duration: 0.2,
+            onComplete: () => gsap.killTweensOf(categories),
+          });
         },
       });
 
@@ -205,6 +225,7 @@ export default {
             gsap.to(fadeOut, {
               opacity: 1,
               duration: 0.2,
+              onComplete: () => gsap.killTweensOf(fadeOut),
             });
           },
         });
@@ -248,6 +269,8 @@ export default {
       if (this.direction === 1) moveUpOnce();
     },
     moveProjectsUp() {
+      console.log('up', this.activeSection);
+
       this.activeSection = 'projects';
 
       if (this.activeProject === 0) return;
@@ -266,13 +289,15 @@ export default {
           gsap.set(projectsSection, { overflowY: 'scroll', delay: 0.2 });
           window.removeEventListener('wheel', this.onWheelUp);
         },
-        onComplete: () => ScrollTrigger.refresh(),
+        // onComplete: () => ScrollTrigger.refresh(),
       });
     },
     moveProjectsDown() {
+      console.log('donw', this.activeSection);
       this.activeSection = 'about';
 
       if (this.activeProject === undefined) return;
+      ScrollTrigger.getAll().forEach((st) => st.kill());
       this.setProjectsPos();
 
       const { projectsSection, previewSection } = this.$refs;
@@ -319,12 +344,20 @@ export default {
       if (scrollTop < this.lastScrollTop) this.direction = -1;
 
       if (this.direction === -1 && scrollTop < 5) {
+        gsap.set('[data-categories]', { opacity: 1 });
+
         const moveDownOnce = once(() => this.moveProjectsDown());
         moveDownOnce();
-        gsap.set(projectsSection, { overflowY: 'hidden' });
       }
 
       this.lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+    },
+    onClick(title) {
+      if (this.activeCategory === title) {
+        this.activeCategory = '';
+      } else {
+        this.activeCategory = title;
+      }
     },
   },
 };
@@ -351,7 +384,7 @@ const query = `{
 }
 
 .dark-shadow {
-  transition: transform 0.15s var(--ease-out-quint);
+  transition: transform 0.3s var(--ease-out-quint);
   box-shadow: 0px 0px 40px 20px hsla(0, 0%, 0%, 0.816);
 }
 </style>
