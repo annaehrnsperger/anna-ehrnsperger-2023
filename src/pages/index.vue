@@ -371,7 +371,7 @@ const query = `{
     },
     tags[]->
   },
-  "categories": *[_type == "category"]|order(title asc),
+  "categories": *[_type == "category"]|order(orderRank asc),
   "legal": *[_type == "legal"][0]
 }`;
 </script>

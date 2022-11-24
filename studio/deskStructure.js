@@ -1,6 +1,6 @@
 import S from '@sanity/desk-tool/structure-builder';
 import { orderableDocumentListDeskItem } from '@sanity/orderable-document-list';
-import { FiCircle, FiCoffee, FiFileText, FiLayout, FiSettings, FiSidebar, FiSquare } from 'react-icons/fi';
+import { FiCircle, FiCoffee, FiFileText, FiTag, FiSettings, FiSidebar, FiSquare } from 'react-icons/fi';
 
 export default () =>
   S.list()
@@ -29,4 +29,10 @@ export default () =>
             ])
         ),
       S.listItem().title('Legal').icon(FiFileText).child(S.editor().schemaType('legal').documentId('legal')),
+      S.divider(),
+      orderableDocumentListDeskItem({
+        type: 'category',
+        title: 'Categories',
+        icon: FiTag,
+      }),
     ]);
