@@ -135,7 +135,7 @@ export default {
       showIntroDot: false,
       socials: [
         { title: 'Instagram', url: 'https://www.instagram.com/annaehrnsperger/' },
-        { title: 'Twitter', url: 'https://twitter.com/annaehrnsperger' },
+        { title: 'GitHub', url: 'https://github.com/annaehrnsperger' },
       ],
       lastScrollTop: 0,
       direction: 1,
